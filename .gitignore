@@ -1,0 +1,15 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+nbproject
+
+# Ignore backup files
+**/*~
+**/*.bak
+
+# Ignore internal specific settings
+**/application.properties
+
+# Ignore Gradle build output directory
+build
+config
+nbproject
