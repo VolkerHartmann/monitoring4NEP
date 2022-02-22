@@ -20,22 +20,31 @@ import ch.qos.logback.core.AppenderBase;
 
 /**
  * Appender logging access to NEP service.
- * 
+ *
  */
-public class NepAppender extends AppenderBase<ILoggingEvent>{
+public class NepAppender extends AppenderBase<ILoggingEvent> {
+
   private String nepServiceUrl;
+  
+
   @Override
   protected void append(ILoggingEvent e) {
-        if (nepServiceUrl == null || "".equals(nepServiceUrl)) {
-            addError("nepServiceUrl is not set for NepAppender.");
-            return;
-        }
+    if (nepServiceUrl == null || "".equals(nepServiceUrl)) {
+      addError("nepServiceUrl is not set for NepAppender.");
+      return;
+    }
+
     System.out.println("NEP Appender: " + nepServiceUrl);
     System.out.println("Message: " + e.getMessage());
+    System.out.println("Event: " + e);
+    for (Object arg : e.getArgumentArray()) {
+      System.out.println("Other: " + arg);
+    }
   }
 
   /**
    * Gets the service URL for NEP.
+   *
    * @return the nepServiceUrl
    */
   public String getNepServiceUrl() {
@@ -44,10 +53,11 @@ public class NepAppender extends AppenderBase<ILoggingEvent>{
 
   /**
    * Sets the service URL for NEP.
+   *
    * @param nepServiceUrl the nepServiceUrl to set
    */
   public void setNepServiceUrl(String nepServiceUrl) {
     this.nepServiceUrl = nepServiceUrl;
   }
-  
+
 }
