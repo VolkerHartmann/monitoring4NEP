@@ -17,6 +17,7 @@ package edu.kit.datamanager.metastore2.monitoring.nep;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
+import edu.kit.datamanager.clients.SimpleServiceClient;
 import edu.kit.datamanager.metastore.monitoring.nep.json.VirtualAccessCreate;
 
 /**
@@ -46,6 +47,13 @@ public class NepAppender extends AppenderBase<ILoggingEvent> {
     for (Object arg : e.getArgumentArray()) {
       System.out.println("Other: " + arg);
     }
+    String bearerToken = e.getArgumentArray()[3].toString();
+    SimpleServiceClient ssc = SimpleServiceClient.create(nepServiceUrl);
+    if (bearerToken != null){
+      ssc.withBearerToken(bearerToken);
+    }
+    ssc.postResource(vac, VirtualAccessCreate.class);
+    
   }
 
   /**
