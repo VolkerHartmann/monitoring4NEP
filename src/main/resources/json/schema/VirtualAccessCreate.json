@@ -1,0 +1,25 @@
+{
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#", 
+    "$id": "https://example.com/object1639392494.json", 
+    "title": "Root", 
+    "type": "object",
+    "required": [
+        "virtualAccessId",
+        "type"
+    ],
+    "properties": {
+
+        "virtualAccessId": {
+            "title": "Virtual Access ID", 
+            "type": "string",
+            "examples": [
+                "0000-1234-5678"
+            ]
+          },
+        "payload": {
+            "title": "Any Payload", 
+            "type": "object"
+        }
+    }
+}

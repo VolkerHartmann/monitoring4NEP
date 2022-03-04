@@ -17,14 +17,17 @@ package edu.kit.datamanager.metastore2.monitoring.nep;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
+import edu.kit.datamanager.metastore.monitoring.nep.json.VirtualAccessCreate;
 
 /**
  * Appender logging access to NEP service.
  *
  */
 public class NepAppender extends AppenderBase<ILoggingEvent> {
-
+  /** URL for accessing monitoring service. */
   private String nepServiceUrl;
+  /** Service ID of the service sending the log. */
+  private String virtualServiceId;
   
 
   @Override
@@ -33,8 +36,11 @@ public class NepAppender extends AppenderBase<ILoggingEvent> {
       addError("nepServiceUrl is not set for NepAppender.");
       return;
     }
-
+    VirtualAccessCreate vac = new VirtualAccessCreate();
+    vac.setVirtualAccessId(virtualServiceId);
+    
     System.out.println("NEP Appender: " + nepServiceUrl);
+    System.out.println("VirtualServiceCreate: " + vac);
     System.out.println("Message: " + e.getMessage());
     System.out.println("Event: " + e);
     for (Object arg : e.getArgumentArray()) {
@@ -58,6 +64,24 @@ public class NepAppender extends AppenderBase<ILoggingEvent> {
    */
   public void setNepServiceUrl(String nepServiceUrl) {
     this.nepServiceUrl = nepServiceUrl;
+  }
+
+  /**
+   * Gets the virtual servide ID. 
+   * 
+   * @return the virtualServiceId
+   */
+  public String getVirtualServiceId() {
+    return virtualServiceId;
+  }
+
+  /**
+   * Sets the virtual service ID.
+   * 
+   * @param virtualServiceId the virtualServiceId to set
+   */
+  public void setVirtualServiceId(String virtualServiceId) {
+    this.virtualServiceId = virtualServiceId;
   }
 
 }

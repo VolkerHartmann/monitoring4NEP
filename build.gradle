@@ -1,6 +1,12 @@
-plugins { 
+plugins {
     id 'java'
     id 'jacoco'
+    id 'org.jsonschema2dataclass' version '4.2.0'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal() 
 }
 
 description = 'Monitoring access for NEP'
@@ -11,33 +17,19 @@ println "Running gradle version: $gradle.gradleVersion"
 println "Building ${name} version: ${version}"
 println "JDK version: ${JavaVersion.current()}"
 
-repositories {
-    mavenLocal() 
-    mavenCentral()
+ext {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
- 
-
 dependencies {
-implementation "ch.qos.logback:logback-classic:1.2.10"
+    implementation "ch.qos.logback:logback-classic:1.2.10"
 
     // datamanager
     implementation "edu.kit.datamanager:repo-core:0.9.3-SNAPSHOT"
     implementation "edu.kit.datamanager:service-base:0.3.2"
-
-//    // Additional libraries for tests
-//    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:2.0.5.RELEASE"
-//    testImplementation "org.springframework.boot:spring-boot-starter-test"
-//    testImplementation "org.springframework:spring-test"
-//    testImplementation "org.springframework.security:spring-security-test"
-//   
-//    //Java 11 Support 
-//    testImplementation "org.mockito:mockito-core:3.12.0"
-//    testImplementation "org.powermock:powermock-module-junit4:2.0.9"
-//    testImplementation "org.powermock:powermock-api-mockito2:2.0.9"
-//    testImplementation "junit:junit:4.13.2"
+    // Create JSON classes
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
 }
 
 compileJava {
@@ -62,6 +54,18 @@ tasks.withType(Test) {
 
 jacoco {
     toolVersion = "0.8.7"
+}
+
+sourceSets {
+  main {
+    java.srcDirs += file("${buildDir}/generated/sources/js2d/main")
+  }
+}
+
+jsonSchema2Pojo {
+  source.setFrom files("${project.rootDir}/src/main/resources/json/schema/")
+  targetPackage = 'edu.kit.datamanager.metastore.monitoring.nep.json'
+  propertyWordDelimiters = '_'
 }
 
 
