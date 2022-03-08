@@ -17,43 +17,84 @@ package edu.kit.datamanager.metastore2.monitoring.nep;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import edu.kit.datamanager.clients.SimpleServiceClient;
+import edu.kit.datamanager.metastore.monitoring.nep.json.Payload;
 import edu.kit.datamanager.metastore.monitoring.nep.json.VirtualAccessCreate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Appender logging access to NEP service.
  *
  */
 public class NepAppender extends AppenderBase<ILoggingEvent> {
-  /** URL for accessing monitoring service. */
+
+  /**
+   * Create logger for class.
+   */
+  private static final Logger logger = LoggerFactory.getLogger(NepAppender.class);
+
+  /**
+   * URL for accessing monitoring service.
+   */
   private String nepServiceUrl;
-  /** Service ID of the service sending the log. */
+  /**
+   * Service ID of the service sending the log.
+   */
   private String virtualServiceId;
-  
 
   @Override
   protected void append(ILoggingEvent e) {
-    if (nepServiceUrl == null || "".equals(nepServiceUrl)) {
+    // Test configuration
+    if (nepServiceUrl == null || nepServiceUrl.trim().isEmpty()) {
       addError("nepServiceUrl is not set for NepAppender.");
       return;
     }
+    
+    if (virtualServiceId == null || virtualServiceId.trim().isEmpty()) {
+      addError("virtualServiceId is not set for NepAppender.");
+      return;
+    }
+    
+    // Set input for REST endpoint of monitoring service.
     VirtualAccessCreate vac = new VirtualAccessCreate();
     vac.setVirtualAccessId(virtualServiceId);
+    // Remove following line if payload is optional
+    vac.setPayload(new Payload());
     
-    System.out.println("NEP Appender: " + nepServiceUrl);
-    System.out.println("VirtualServiceCreate: " + vac);
-    System.out.println("Message: " + e.getMessage());
-    System.out.println("Event: " + e);
-    for (Object arg : e.getArgumentArray()) {
-      System.out.println("Other: " + arg);
+    if (logger.isTraceEnabled()) {
+      Gson gson = new GsonBuilder()
+              .setPrettyPrinting()
+              .create();
+      logger.trace("NEP Appender: " + nepServiceUrl);
+      logger.trace("VirtualServiceCreate: " + gson.toJson(vac));
+      logger.trace("Message: " + e.getMessage());
+      logger.trace("Event: " + e);
+      for (Object arg : e.getArgumentArray()) {
+        logger.trace("Other: " + arg);
+      }
     }
-    String bearerToken = e.getArgumentArray()[3].toString();
-    SimpleServiceClient ssc = SimpleServiceClient.create(nepServiceUrl);
-    if (bearerToken != null){
-      ssc.withBearerToken(bearerToken);
+    try {
+      // Set bearer token if available
+      String bearerToken = (e.getArgumentArray()[3] != null) ? e.getArgumentArray()[3].toString() : null;
+      
+      // Post input to nepServiceUrl
+      SimpleServiceClient ssc = SimpleServiceClient.create(nepServiceUrl);
+      if (bearerToken != null) {
+        ssc.withBearerToken(bearerToken);
+      }
+      VirtualAccessCreate postResource = ssc.postResource(vac, VirtualAccessCreate.class);
+      if (logger.isTraceEnabled()) {
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+        logger.trace("Return value: '{}'", gson.toJson(postResource));
+      }
+    } catch (Throwable tw) {
+      logger.error("Error posting monitoring information!", tw);
     }
-    ssc.postResource(vac, VirtualAccessCreate.class);
-    
   }
 
   /**
@@ -75,8 +116,8 @@ public class NepAppender extends AppenderBase<ILoggingEvent> {
   }
 
   /**
-   * Gets the virtual servide ID. 
-   * 
+   * Gets the virtual servide ID.
+   *
    * @return the virtualServiceId
    */
   public String getVirtualServiceId() {
@@ -85,7 +126,7 @@ public class NepAppender extends AppenderBase<ILoggingEvent> {
 
   /**
    * Sets the virtual service ID.
-   * 
+   *
    * @param virtualServiceId the virtualServiceId to set
    */
   public void setVirtualServiceId(String virtualServiceId) {

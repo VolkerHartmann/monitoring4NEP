@@ -10,6 +10,9 @@
         </layout>
     </appender>
 
+    <!-- Please configure NepAppender if needed:
+         nepServiceUrl - URL of the REST endpoint for monitor access to MetaStore
+         virtualServiceId - Id of the service.    -->
     <appender name="NEPAppender"
         class="edu.kit.datamanager.metastore2.monitoring.nep.NepAppender">
         <nepServiceUrl>http://localhost:8888/api/v1/monitoring</nepServiceUrl>
