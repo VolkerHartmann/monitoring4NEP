@@ -1,11 +1,8 @@
 # Monitoring for NEP
 
 [![Build Status](https://github.com/kit-data-manager/monitoring4nep/actions/workflows/gradle.yml/badge.svg)](https://github.com/kit-data-manager/monitoring4nep/actions/workflows/gradle.yml)
-[![Codecov](https://codecov.io/gh/kit-data-manager/monitoring4nep/branch/master/graph/badge.svg)](https://codecov.io/gh/kit-data-manager/monitoring4nep)
 [![CodeQL](https://github.com/kit-data-manager/monitoring4nep/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/kit-data-manager/monitoring4nep/actions/workflows/codeql-analysis.yml)
 ![License](https://img.shields.io/github/license/kit-data-manager/monitoring4nep.svg)
-[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/kitdm/monitoring4nep)](https://hub.docker.com/r/kitdm/monitoring4nep/tags)
-![Docker Image Version (latest semver)](https://img.shields.io/docker/v/kitdm/monitoring4nep)
 
 Enable monitoring for NEP via logging appender. 
  

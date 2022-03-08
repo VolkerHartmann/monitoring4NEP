@@ -28,6 +28,7 @@ dependencies {
     // datamanager
     implementation "edu.kit.datamanager:repo-core:0.9.3-SNAPSHOT"
     implementation "edu.kit.datamanager:service-base:0.3.2"
+
     // Create JSON classes
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
