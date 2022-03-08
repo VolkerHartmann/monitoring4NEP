@@ -34,12 +34,15 @@ user@localhost:/home/user/monitoring4nep$
 The library should be available in folder 'build/libs'.
 
 #### Customize settings
-ToDo 
+To customize settings please edit 'logback-spring.xml'.
+You have to change at least the values for 
+- nepServiceUrl (line 18)
+- virtualServiceId (line 19)
 
 ## More Information
 
 * [Information about KIT Data Manager 2](https://github.com/kit-data-manager/base-repo)
-* [REST Documentation MetaStore2](restDocu.md) 
+* [REST Documentation MetaStore2](https://github.com/kit-data-manager/metastore2/blob/master/restDocu.md) 
 
 ## License
 
