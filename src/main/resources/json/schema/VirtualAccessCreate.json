@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
 
-    "virtualAccessId": {
+    "virtual_service_id": {
       "title": "Virtual Access ID", 
       "type": "string",
       "examples": [
@@ -20,7 +20,7 @@
     }
   },
   "required": [
-    "virtualAccessId"
+    "virtual_service_id"
   ],
   "additionalProperties": false
 }
