@@ -2,6 +2,8 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'org.jsonschema2dataclass' version '4.2.0'
+    // plugin for Spring Boot
+    id "io.spring.dependency-management" version "1.0.11.RELEASE" 
 }
 
 repositories {
@@ -26,8 +28,8 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:1.2.10"
 
     // datamanager
-    implementation "edu.kit.datamanager:repo-core:0.9.3-SNAPSHOT"
-    implementation "edu.kit.datamanager:service-base:0.3.2"
+    implementation "edu.kit.datamanager:repo-core:1.0.0"
+    implementation "edu.kit.datamanager:service-base:1.0.0"
 
     // Create JSON classes
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
@@ -68,7 +70,6 @@ sourceSets {
 jsonSchema2Pojo {
   source.setFrom files("${project.rootDir}/src/main/resources/json/schema/")
   targetPackage = 'edu.kit.datamanager.metastore.monitoring.nep.json'
-  propertyWordDelimiters = '_'
 }
 
 
