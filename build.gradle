@@ -73,6 +73,11 @@ jsonSchema2Pojo {
   targetPackage = 'edu.kit.datamanager.metastore.monitoring.nep.json'
 }
 
+release {
+  // define tag pattern (tags have to start with 'v')
+  tagTemplate = 'v${version}'
+}
+
 // task for printing project name.
 task printProjectName {
     doLast {
