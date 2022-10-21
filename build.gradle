@@ -29,8 +29,8 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:1.2.10"
 
     // datamanager
-    implementation "edu.kit.datamanager:repo-core:1.0.0"
-    implementation "edu.kit.datamanager:service-base:1.0.0"
+    implementation "edu.kit.datamanager:repo-core:1.0.4"
+    implementation "edu.kit.datamanager:service-base:1.0.7"
 
     // Create JSON classes
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.4'
